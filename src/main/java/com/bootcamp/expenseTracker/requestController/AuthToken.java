@@ -1,4 +1,4 @@
-package com.bootcamp.authenticationSpring.requestController;
+package com.bootcamp.expenseTracker.requestController;
 
 
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ public class AuthToken {
     private String id;
     private String key;
     private boolean valid;
-    private int timeout;
 
     public AuthToken(String id, String key) {
         this.id = id;

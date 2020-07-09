@@ -1,4 +1,7 @@
 package com.bootcamp.expenseTracker.requestController;
 
-public interface UserRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<User,String> {
+     
 }
