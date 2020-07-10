@@ -14,7 +14,7 @@ public class RequestHandler {
 
     @RequestMapping(value = "/home")
     public String Home(){
-        return "Hello. You are home";
+        return "Hello. You are home. Please stay here";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verifyCredentials")
@@ -29,13 +29,26 @@ public class RequestHandler {
         return request;
 
     }
-
+/*
     @RequestMapping(method = RequestMethod.POST, value = "/verifyOTP")
-    public  AuthToken verifyOTP(@RequestBody String OTP){
-        return loginService.verifyOTP(OTP);
+    public  AuthToken verifyOTP(@RequestBody Object request){
+        return loginService.verifyOTP(request.getClass());
     }
+*/
 
-
+/*  Doubt
+    @RequestMapping(method = RequestMethod.POST,value = "/updatePassword")
+    public AuthToken updatePassword(@RequestBody User user){
+        return loginService.updatePassword(user,token);
+    }
+*/
+    @RequestMapping(method = RequestMethod.POST, value= "/registerUser")
+    public String createUser(@RequestBody User user){
+        if(loginService.newUserRegistration(user))
+            return "SUCCESS";
+        else
+            return "FAILED";
+    }
 
 
 

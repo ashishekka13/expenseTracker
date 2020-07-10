@@ -1,6 +1,5 @@
 package com.bootcamp.expenseTracker.requestController;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,7 @@ public class AuthToken {
     public AuthToken(String id, String key) {
         this.id = id;
         this.key = key;
+        valid = true;
+        LoginServices.setToken(this);
     }
 }
