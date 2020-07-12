@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity @Table(name = "users")
 @Getter @Setter
-public class User {
+public class User extends tokenWrapper {
 
     @Id
     private String username;

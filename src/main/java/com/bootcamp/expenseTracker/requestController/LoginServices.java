@@ -14,18 +14,20 @@ import java.util.Random;
 @Service
 public class LoginServices {
 
-    private static HashMap<String,AuthToken> tokens;
-//    private static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    private HashMap<String,AuthToken> tokens = new HashMap<String,AuthToken >();;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 
     @Autowired
     private UserRepository users;
 
-    public void loginService(){
-        tokens=new HashMap<String,AuthToken >();
-    }
-
-    public static void setToken(AuthToken token){
+    public void setToken(AuthToken token){
         tokens.put(token.getId(),token);
+    }
+    public  AuthToken getToken(String id){
+        AuthToken token=tokens.get(id);
+        if (token.isValid())
+            return token;
+        return new AuthToken();
     }
 
     public String generatePassphrase(){
@@ -41,9 +43,11 @@ public class LoginServices {
 
     public AuthToken verifyCredentials(User user){
         System.out.println(user.getUsername() );
-//        if (  encoder.matches(user.getPassword(),users.findById(user.getUsername()).get().getPassword())  ){
-//            return new AuthToken(user.getUsername(),generatePassphrase());
-//        }
+
+        if (  encoder.matches(user.getPassword(),users.findById(user.getUsername()).get().getPassword())  ){
+            return new AuthToken(user.getUsername(),generatePassphrase());
+        }
+
         return  new AuthToken();
     }
 
@@ -69,7 +73,6 @@ public class LoginServices {
      */
 
     public String encrypt(String password){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         return encoder.encode(password);
     }
 
@@ -83,6 +86,12 @@ public class LoginServices {
     }
 
     public AuthToken updatePassword(User user, AuthToken token){
+        if(getToken(user.getUsername()).getKey().equals(token.getKey())) {
+            User userToUpdate = users.findById(token.getId()).get();
+            userToUpdate.setPassword(encrypt(user.getPassword()));
+            users.save(userToUpdate);
+            return new AuthToken(user.getUsername(), generatePassphrase());
+        }
         return new AuthToken();
     }
 

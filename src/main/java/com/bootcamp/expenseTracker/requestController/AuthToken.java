@@ -15,6 +15,5 @@ public class AuthToken {
         this.id = id;
         this.key = key;
         valid = true;
-        LoginServices.setToken(this);
     }
 }
